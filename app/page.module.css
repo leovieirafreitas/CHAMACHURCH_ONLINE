@@ -1,0 +1,609 @@
+.main {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
+.header {
+    padding: 1rem 0;
+    background: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+}
+
+.headerContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logoImage {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+    /* Make logo white for dark hero */
+}
+
+/* History Button White Variant for Hero */
+.historyButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: white;
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.historyButton:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.historyText {
+    display: none;
+}
+
+@media (min-width: 640px) {
+    .historyText {
+        display: block;
+    }
+}
+
+/* Hero Section */
+.heroSection {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/hero-bg.jpg');
+    /* Should use a real image, defaulting to dark gradient if missing */
+    background-color: #111;
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 80px;
+    /* Space for fixed/absolute header */
+    padding-bottom: 4rem;
+}
+
+.heroContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    width: 100%;
+    align-items: center;
+}
+
+@media (min-width: 1024px) {
+    .heroContainer {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .heroContent {
+        flex: 1;
+        max-width: 600px;
+        text-align: left;
+    }
+
+    .donationWidget {
+        flex: 1;
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+.heroContent {
+    text-align: center;
+    color: white;
+    padding: 0 1rem;
+}
+
+.heroTitle {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+}
+
+.heroSubtitle {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
+.donationWidget {
+    width: 100%;
+    max-width: 500px;
+}
+
+/* Card Updates (Reset styles for embedded widget) */
+.card {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+/* Info Section (Dízimo) */
+.infoSection {
+    background: white;
+    padding: 5rem 0;
+    text-align: center;
+}
+
+.infoContent {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.infoIcon {
+    margin-bottom: 2rem;
+    color: #4ade80;
+    /* Green accent */
+    transform: scale(1.5);
+}
+
+.infoTitle {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: var(--foreground);
+}
+
+.infoSubtitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--foreground);
+}
+
+.infoText {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--muted-foreground);
+    max-width: 700px;
+}
+
+/* Location Selector */
+.locationSelector {
+    display: flex;
+    background: var(--muted);
+    padding: 0.25rem;
+    border-radius: var(--radius);
+    margin-bottom: 2rem;
+}
+
+.locationButton {
+    flex: 1;
+    padding: 0.75rem;
+    border: none;
+    background: transparent;
+    border-radius: calc(var(--radius) - 2px);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--muted-foreground);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.locationButton.selectedLocation {
+    background: white;
+    color: var(--foreground);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.heading {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--foreground);
+}
+
+.subtext {
+    color: var(--muted-foreground);
+    margin-bottom: 1.5rem;
+}
+
+/* Forms */
+.inputGroup {
+    margin-bottom: 1.5rem;
+}
+
+.inputGroup label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--muted-foreground);
+}
+
+.input {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+/* New Type Selector & Modal Styles */
+.amountContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.5rem 1rem;
+    background: white;
+    margin-bottom: 2rem;
+}
+
+.amountInputWrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    border: none;
+}
+
+.amountInputWrapper:focus-within {
+    border-color: transparent;
+}
+
+.currencySymbol {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--muted-foreground);
+    margin-right: 0.25rem;
+}
+
+.amountInput {
+    width: 100%;
+    font-size: 2.5rem;
+    font-weight: 700;
+    border: none;
+    background: transparent;
+    color: var(--foreground);
+    outline: none;
+    padding: 0;
+}
+
+.selectTrigger {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.125rem;
+    color: var(--foreground);
+    border: none;
+    border-left: 1px solid var(--border);
+    margin-left: 1rem;
+    padding-left: 1.5rem;
+}
+
+.selectTrigger:hover {
+    opacity: 0.7;
+}
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 1rem;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.modalContent {
+    background: #f4f4f5;
+    /* Light gray background */
+    width: 100%;
+    max-width: 550px;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.15);
+    animation: slideUp 0.3s ease-out;
+    display: flex;
+    flex-direction: column;
+    max-height: 85vh;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    background: #f4f4f5;
+    flex-shrink: 0;
+}
+
+.modalTitle {
+    font-size: 1.125rem;
+    font-weight: 700;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--muted-foreground);
+    padding: 0;
+}
+
+.modalList {
+    padding: 1.5rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.modalItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    width: 100%;
+    padding: 1.5rem;
+    border: none;
+    background: white;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 1rem;
+    transition: transform 0.1s, box-shadow 0.2s;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    margin-bottom: 0.75rem;
+}
+
+.modalItem:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.modalItem.selectedType {
+    box-shadow: 0 0 0 2px var(--foreground);
+}
+
+.iconWrapper {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    color: #10b981;
+    /* Default brand color, can be customized per icon if needed */
+}
+
+/* Specific icon coloring adjustment if needed based on the icon source */
+.iconWrapper svg {
+    width: 32px;
+    height: 32px;
+}
+
+.itemContent {
+    flex: 1;
+}
+
+.itemLabel {
+    display: block;
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: var(--foreground);
+    margin-bottom: 0.25rem;
+}
+
+.itemDescription {
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+    line-height: 1.5;
+}
+
+.radioButton {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    border: 2px solid #d1d5db;
+    /* gray-300 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.25rem;
+}
+
+.radioSelected {
+    border-color: #0ea5e9;
+    /* sky-500 */
+}
+
+.radioSelected::after {
+    content: '';
+    width: 12px;
+    height: 12px;
+    background: #0ea5e9;
+    border-radius: 50%;
+    display: block;
+}
+
+.sectionHeader {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--muted-foreground);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 1.5rem 0 0.75rem;
+}
+
+.modalFooter {
+    padding-top: 1rem;
+}
+
+.doneButton {
+    width: 100%;
+    padding: 1rem;
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 2rem;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* Primary Button Update */
+.primaryButton {
+    width: 100%;
+    padding: 1.25rem;
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 3rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.primaryButton:hover {
+    opacity: 0.9;
+}
+
+.backButton {
+    background: none;
+    border: none;
+    color: var(--muted-foreground);
+    margin-bottom: 1rem;
+    padding: 0;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.backButton:hover {
+    color: var(--foreground);
+}
+
+/* Summary Box */
+.summary {
+    background: var(--muted);
+    padding: 1.25rem;
+    border-radius: var(--radius);
+    margin-bottom: 1.5rem;
+}
+
+.summaryRow {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+}
+
+.summaryRow strong {
+    color: var(--foreground);
+}
+
+.summaryTotal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-weight: 600;
+}
+
+.totalValue {
+    font-size: 1.25rem;
+    color: var(--primary);
+}
+
+/* Payment UI */
+.paymentTabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1.5rem;
+}
+
+.paymentTab {
+    flex: 1;
+    padding: 0.75rem;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--muted-foreground);
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.paymentTab.activeTab {
+    color: var(--foreground);
+    border-bottom-color: var(--foreground);
+}
+
+.secureBadge {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
+    margin-top: 1rem;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
