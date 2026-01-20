@@ -29,6 +29,16 @@ export async function POST(request: Request) {
             cardBody: body.card
         });
 
+        // Determine status from PagBank response
+        let status = 'pending';
+        if (order.charges && order.charges.length > 0) {
+            const chargeStatus = order.charges[0].status;
+            if (chargeStatus === 'PAID') status = 'paid';
+            else if (chargeStatus === 'DECLINED') status = 'declined';
+            else if (chargeStatus === 'CANCELED') status = 'canceled';
+            else status = chargeStatus; // Keep original if unknown
+        }
+
         // Save to Supabase
         const { error: dbError } = await supabase
             .from('donations')
@@ -36,7 +46,7 @@ export async function POST(request: Request) {
                 amount: parseFloat(body.amount),
                 type: description, // Storing description as type/context for now
                 payment_method: body.paymentMethod || 'pix',
-                status: 'pending', // Initial status
+                status: status,
                 payer_name: body.customer.name,
                 payer_email: body.customer.email || 'nao-informado@chamachurch.com',
                 payer_cpf: body.customer.cpf,

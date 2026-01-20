@@ -68,6 +68,7 @@ export default function Home() {
     // User Data
     const [cpf, setCpf] = useState('');
     const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
     const [whatsapp, setWhatsapp] = useState('');
 
     // Payment State
@@ -97,7 +98,7 @@ export default function Home() {
                     description: `Doação - ${currentTypeLabel}`,
                     customer: {
                         name,
-                        email: 'leovieiradefreitas@gmail.com', // Using the admin email as fallback for now
+                        email: email || 'comprador@sandbox.pagseguro.com.br', // MUST be different from merchant email
                         cpf: cleanCpf,
                         phone: cleanPhone
                     },
@@ -125,7 +126,7 @@ export default function Home() {
                     text: data.qr_codes[0].text
                 });
             } else {
-                alert('Doação processada com sucesso via Cartão (ambiente de teste)!');
+                setStep(4);
             }
         } catch (error: any) {
             console.error(error);
@@ -142,6 +143,19 @@ export default function Home() {
     const handleNext = () => {
         if (step === 1 && amount) setStep(2);
         else if (step === 2 && name && whatsapp && cpf) setStep(3);
+    };
+
+    const resetForm = () => {
+        setStep(1);
+        setAmount('');
+        // Reset card data but keep user details for convenience
+        setCardNumber('');
+        setCardCvv('');
+        setCardExp('');
+        setCardName('');
+        setPaymentMethod('credit_card');
+        setPixData(null);
+        setErrorMsg('');
     };
 
     const currentTypeLabel = DONATION_TYPES.find(t => t.id === selectedType)?.label;
@@ -242,6 +256,32 @@ export default function Home() {
                     {/* Donation Widget */}
                     <div className={styles.donationWidget}>
                         <div className={styles.card}>
+                            {/* Step 4: Success */}
+                            {step === 4 ? (
+                                <div className="animate-fade-in" style={{ textAlign: 'center', padding: '2rem 1rem' }}>
+                                    <div style={{ marginBottom: '1.5rem', color: '#10b981', display: 'flex', justifyContent: 'center' }}>
+                                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                            <path d="M7.75 12.75L10.25 15.25L16.25 9.25" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
+                                    </div>
+                                    <h2 className={styles.heading} style={{ marginBottom: '0.5rem' }}>Obrigado!</h2>
+                                    <p className={styles.subtext} style={{ fontSize: '1.1rem', color: '#333' }}>
+                                        Sua contribuição foi recebida com sucesso.
+                                    </p>
+                                    <p style={{ marginTop: '1rem', color: '#666', fontSize: '0.9rem' }}>
+                                        Deus abençoe sua vida.
+                                    </p>
+                                    <button
+                                        className={styles.primaryButton}
+                                        onClick={resetForm}
+                                        style={{ marginTop: '2rem' }}
+                                    >
+                                        Fazer nova doação
+                                    </button>
+                                </div>
+                            ) : null}
+
                             {/* Step 1: Donation Details */}
                             {step === 1 && (
                                 <div className="animate-fade-in">
@@ -343,6 +383,17 @@ export default function Home() {
                                                 }
                                                 setCpf(value);
                                             }}
+                                        />
+                                    </div>
+
+                                    <div className={styles.inputGroup}>
+                                        <label>E-mail (Opcional)</label>
+                                        <input
+                                            type="email"
+                                            className={styles.input}
+                                            placeholder="seu@email.com"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
                                         />
                                     </div>
 
