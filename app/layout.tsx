@@ -16,6 +16,8 @@ export const metadata: Metadata = {
   description: 'Plataforma de doações e dízimos da Chama Church.',
 }
 
+import SplashScreen from './components/SplashScreen'
+
 export default function RootLayout({
   children,
 }: {
@@ -26,7 +28,10 @@ export default function RootLayout({
       <head>
         <script src="https://sdk.mercadopago.com/js/v2" async></script>
       </head>
-      <body className={`${inter.variable} ${outfit.variable} ${wondra.variable}`}>{children}</body>
+      <body className={`${inter.variable} ${outfit.variable} ${wondra.variable}`}>
+        <SplashScreen />
+        {children}
+      </body>
     </html>
   )
 }
