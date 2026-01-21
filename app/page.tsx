@@ -757,7 +757,7 @@ export default function Home() {
                                             </div>
 
                                             <div className={styles.inputGroup}>
-                                                <label>E-mail (Opcional)</label>
+                                                <label>E-mail</label>
                                                 <input
                                                     type="email"
                                                     className={styles.input}
@@ -983,15 +983,38 @@ export default function Home() {
             {/* Generosity Section */}
             <section className={styles.generositySection}>
                 <div className={styles.generosityContainer}>
-                    <h2 className={styles.generosityTitle}>Generosidade</h2>
-                    <h3 className={styles.generositySubtitle}>
-                        É impossível superar a generosidade de Deus, mas você nunca se arrependerá de tentar.
-                    </h3>
+                    <h2 className={styles.generosityTitle}>Por que contribuímos?</h2>
+
                     <p className={styles.generosityText}>
-                        Deus nos dá coisas boas que não merecemos e jamais poderíamos conquistar, como a graça e o perdão.
-                        Ele nos deu o maior presente de todos, Seu Filho, pelos nossos pecados. Quando falamos de generosidade irracional,
-                        é a isso que nos referimos. Deus te criou com um espírito generoso. Queremos te ajudar a abraçá-lo,
-                        contribuindo além do seu dízimo com uma oferta para uma destas causas.
+                        A força da Chama Church é encontrada na generosidade e no compromisso daqueles que fazem
+                        parte da igreja. Provérbios 21:26 diz que “o justo ama dar” e isso pode ser visto através das
+                        inúmeras horas de trabalho voluntário dedicadas à organização de programas comunitários,
+                        através dos voluntários que servem na igreja e também através daqueles que apoiam
+                        financeiramente a igreja e suas iniciativas.
+                    </p>
+                    <p className={styles.generosityText}>
+                        Nós acreditamos no princípio bíblico de dizimar. Em Malaquias 3:10 (NTLH), a Bíblia fala sobre
+                        trazer os primeiros 10% (dízimo) de sua renda para os depósitos do templo (igreja).
+                    </p>
+                    <p className={styles.generosityText}>
+                        Os dízimos e ofertas recebidos na Chama Church financiam a visão e as atividades da nossa igreja.
+                    </p>
+                </div>
+            </section>
+
+            {/* Espécie Section */}
+            <section className={styles.especieSection}>
+                <div className={styles.especieContainer}>
+                    <h2 className={styles.especieTitle}>Espécie</h2>
+                    <div className={styles.especieIconWrapper}>
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                            <rect width="20" height="16" x="2" y="4" rx="2" />
+                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                        </svg>
+                    </div>
+                    <h3 className={styles.especieSubtitle}>Envelope</h3>
+                    <p className={styles.especieText}>
+                        Você pode contribuir em espécie utilizando os envelopes de Dízimos e Ofertas ao participar de uma de nossas reuniões presenciais.
                     </p>
                 </div>
             </section>

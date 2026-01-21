@@ -728,8 +728,8 @@
 
 /* Generosity Section */
 .generositySection {
-    background-color: #10b981;
-    /* Default emerald-500, similar to screenshot */
+    background-color: #f09400;
+    /* Orange matching the reference image */
     padding: 6rem 1rem;
     color: white;
     text-align: center;
@@ -745,26 +745,40 @@
 }
 
 .generosityTitle {
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin-bottom: 0.5rem;
-    font-family: var(--font-outfit), sans-serif;
+    font-size: 3.5rem;
+    /* Large impact font size */
+    font-weight: 400;
+    margin-bottom: 2rem;
+    font-family: var(--font-wondra), sans-serif;
+    text-transform: uppercase;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .generositySubtitle {
-    font-size: 1.35rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    max-width: 800px;
-    line-height: 1.4;
+    display: none;
 }
 
 .generosityText {
-    font-size: 1.1rem;
-    line-height: 1.7;
-    max-width: 800px;
-    opacity: 0.95;
-    font-weight: 400;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    max-width: 900px;
+    opacity: 1;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .generosityTitle {
+        font-size: 2rem;
+        /* Smaller font on mobile */
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+    }
+
+    .generositySection {
+        padding: 4rem 1rem;
+        /* Slightly less padding on mobile */
+    }
 }
 
 /* Remove spin buttons from number input */
@@ -778,4 +792,50 @@
 .amountInput[type=number] {
     -moz-appearance: textfield;
     appearance: textfield;
+}
+
+/* Espécie Section */
+.especieSection {
+    background: #f9fafb;
+    padding: 6rem 1rem;
+    text-align: center;
+    border-top: 1px solid var(--border);
+}
+
+.especieContainer {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.especieTitle {
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--foreground);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+    font-family: var(--font-outfit), sans-serif;
+}
+
+.especieIconWrapper {
+    margin-bottom: 0.5rem;
+    color: var(--foreground);
+    display: flex;
+    justify-content: center;
+}
+
+.especieSubtitle {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--foreground);
+}
+
+.especieText {
+    font-size: 1rem;
+    color: var(--muted-foreground);
+    line-height: 1.6;
+    max-width: 500px;
 }
