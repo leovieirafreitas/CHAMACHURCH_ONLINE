@@ -180,6 +180,13 @@ export default function HistoryPage() {
 
     const shareReceipt = async (item: any) => {
         setSharingId(item.id);
+
+        // Open window immediately to prevent popup blockers (especially on mobile)
+        const newWindow = window.open('', '_blank');
+        if (newWindow) {
+            newWindow.document.write('<html><body style="background:#f0f2f5;display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;color:#333;text-align:center;"><div style="margin-bottom:20px;width:40px;height:40px;border:4px solid #f3f3f3;border-top:4px solid #3498db;border-radius:50%;animation:spin 1s linear infinite;"></div><h3>Gerando comprovante...</h3><style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style></body></html>');
+        }
+
         try {
             const doc = new jsPDF();
 
@@ -238,9 +245,16 @@ export default function HistoryPage() {
 
             const shortLink = `${window.location.origin}/c/${shortId}`;
             const message = `Olá, paz do Senhor! Segue meu comprovante de doação: ${shortLink}`;
-            window.open(`https://wa.me/5592995199964?text=${encodeURIComponent(message)}`, '_blank');
+            const whatsappUrl = `https://wa.me/5592995199964?text=${encodeURIComponent(message)}`;
+
+            if (newWindow) {
+                newWindow.location.href = whatsappUrl;
+            } else {
+                window.location.href = whatsappUrl;
+            }
         } catch (error) {
             console.error(error);
+            if (newWindow) newWindow.close();
             alert("Erro ao compartilhar comprovante.");
         } finally {
             setSharingId(null);
