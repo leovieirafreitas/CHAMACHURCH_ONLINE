@@ -67,12 +67,11 @@
     background-color: #111;
     background-size: cover;
     background-position: center;
-    min-height: 100vh;
+    min-height: 50vh;
     display: flex;
     align-items: center;
     padding-top: 80px;
-    /* Space for fixed/absolute header */
-    padding-bottom: 4rem;
+    padding-bottom: 2rem;
 }
 
 .heroContainer {
@@ -83,7 +82,7 @@
     align-items: center;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
     .heroContainer {
         flex-direction: row;
         justify-content: space-between;
@@ -101,19 +100,25 @@
         display: flex;
         justify-content: flex-end;
     }
+
+    .heroTitle {
+        font-size: 4.5rem;
+        line-height: 1;
+    }
 }
 
 .heroContent {
-    text-align: center;
+    text-align: left;
     color: white;
     padding: 0 1rem;
 }
 
 .heroTitle {
-    font-size: 2.5rem;
-    font-weight: 800;
+    font-size: 3rem;
+    font-weight: 900;
     line-height: 1.1;
     margin-bottom: 1.5rem;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .heroSubtitle {
@@ -130,7 +135,7 @@
 /* Card Updates (Reset styles for embedded widget) */
 .card {
     background: white;
-    padding: 2rem;
+    padding: 1.5rem;
     border-radius: 1rem;
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
     width: 100%;
@@ -139,11 +144,16 @@
 /* Info Section (Dízimo) */
 .infoSection {
     background: white;
-    padding: 5rem 0;
+    padding: 2rem 0;
     text-align: center;
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .infoContent {
+    width: 100%;
     max-width: 800px;
     margin: 0 auto;
     display: flex;
@@ -185,7 +195,7 @@
     background: var(--muted);
     padding: 0.25rem;
     border-radius: var(--radius);
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
 .locationButton {
@@ -216,7 +226,7 @@
 
 .subtext {
     color: var(--muted-foreground);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 /* Forms */
@@ -262,7 +272,7 @@
     border-radius: var(--radius);
     padding: 0.5rem 1rem;
     background: white;
-    margin-bottom: 2rem;
+    margin-bottom: 1.25rem;
 }
 
 .amountInputWrapper {
@@ -489,7 +499,7 @@
 /* Primary Button Update */
 .primaryButton {
     width: 100%;
-    padding: 1.25rem;
+    padding: 1rem;
     background: black;
     color: white;
     border: none;
@@ -503,6 +513,23 @@
 
 .primaryButton:hover {
     opacity: 0.9;
+}
+
+.outlineButton {
+    width: 100%;
+    padding: 1.25rem;
+    background: transparent;
+    color: black;
+    border: 2px solid black;
+    border-radius: 3rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.outlineButton:hover {
+    background: rgba(0, 0, 0, 0.05);
 }
 
 .backButton {
@@ -605,5 +632,38 @@
 
     to {
         opacity: 1;
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spin {
+    display: inline-block;
+    animation: spin 1s linear infinite;
+}
+
+.locationLogo {
+    height: 20px;
+    width: auto;
+    object-fit: contain;
+    margin-right: 0.75rem;
+}
+
+/* Adjust font size for modal labels to be responsive/smaller */
+.modalItem .itemLabel {
+    font-size: 0.95rem;
+}
+
+@media (min-width: 640px) {
+    .modalItem .itemLabel {
+        font-size: 1rem;
     }
 }

@@ -189,10 +189,47 @@
     font-weight: 700;
     color: var(--primary);
     font-size: 1.125rem;
+    display: flex;
+    align-items: center;
+}
+
+.downloadButton {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    color: var(--muted-foreground);
+    transition: all 0.2s;
+    margin-left: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.downloadButton:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: var(--foreground);
 }
 
 .emptyState {
     text-align: center;
     color: var(--muted-foreground);
     padding: 2rem 0;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spin {
+    display: inline-block;
+    animation: spin 1s linear infinite;
+    font-size: 0.8rem;
 }

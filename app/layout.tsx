@@ -16,6 +16,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
+      <head>
+        <script src="https://sdk.mercadopago.com/js/v2" async></script>
+      </head>
       <body className={inter.variable}>{children}</body>
     </html>
   )
