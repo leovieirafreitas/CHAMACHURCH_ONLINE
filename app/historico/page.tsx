@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import { jsPDF } from 'jspdf';
 import styles from './page.module.css';
+import CustomDatePicker from '@/app/components/CustomDatePicker';
 
 const LOCATIONS = [
     { id: 'central', label: 'Chama Church - Manaus' },
@@ -20,6 +21,10 @@ export default function HistoryPage() {
     const [history, setHistory] = useState<any[]>([]);
     const [memberName, setMemberName] = useState('');
     const [sharingId, setSharingId] = useState<string | null>(null);
+
+    // Filters
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
 
     const checkPendingStatuses = async (items: any[]) => {
         const pendingItems = items.filter(item => item.status === 'pending' && item.pagbank_order_id);
@@ -60,41 +65,69 @@ export default function HistoryPage() {
         }
     };
 
-    const handleSearch = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!cpf) return;
-
+    const fetchHistory = async (cpfValue: string, start?: string, end?: string) => {
         setLoading(true);
-        setSearched(false);
         setHistory([]);
-        setMemberName('');
+        console.log(`Fetching history for CPF: ${cpfValue}, Start: ${start}, End: ${end}`);
+        // setMemberName(''); // Don't clear member name if we are just filtering
 
         try {
-            const cleanCpf = cpf.replace(/\D/g, '');
+            const cleanCpf = cpfValue.replace(/\D/g, '');
 
-            const { data, error } = await supabase
+            let query = supabase
                 .from('donations')
                 .select('*')
-                .eq('payer_cpf', cleanCpf)
-                .order('created_at', { ascending: false });
+                .eq('payer_cpf', cleanCpf);
+
+            if (start) {
+                // Append time to force local time interpretation, then convert to UTC
+                const startDateObj = new Date(`${start}T00:00:00`);
+                console.log('Filter Start (UTC):', startDateObj.toISOString());
+                query = query.gte('created_at', startDateObj.toISOString());
+            }
+            if (end) {
+                // Append time to force local time interpretation, then convert to UTC
+                const endDateObj = new Date(`${end}T23:59:59.999`);
+                console.log('Filter End (UTC):', endDateObj.toISOString());
+                query = query.lte('created_at', endDateObj.toISOString());
+            }
+
+            const { data, error } = await query.order('created_at', { ascending: false });
 
             if (error) {
                 console.error('Error fetching history:', error);
             } else {
-                if (data && data.length > 0) {
+                console.log('History fetched:', data?.length, 'items');
+                if (data) {
                     setHistory(data);
-                    setMemberName(data[0].payer_name || 'Membro');
-
-                    // Check for updates on pending items
-                    checkPendingStatuses(data);
+                    if (data.length > 0 && !memberName) {
+                        setMemberName(data[0].payer_name || 'Membro');
+                    }
+                    if (data.length > 0) {
+                        checkPendingStatuses(data);
+                    }
                 }
             }
         } catch (err) {
             console.error(err);
         } finally {
             setLoading(false);
-            setSearched(true);
         }
+    };
+
+    const handleSearch = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!cpf) return;
+
+        setSearched(false);
+        setMemberName(''); // Reset for new search
+        await fetchHistory(cpf); // Initial search without dates
+        setSearched(true);
+    };
+
+    const handleFilter = async () => {
+        if (!cpf) return;
+        await fetchHistory(cpf, startDate, endDate);
     };
 
     const generateReceipt = (item: any) => {
@@ -227,7 +260,7 @@ export default function HistoryPage() {
                             <path d="m12 19-7-7 7-7" />
                             <path d="M19 12H5" />
                         </svg>
-                        Voltar para Doação
+                        Doação
                     </Link>
                 </div>
             </header>
@@ -272,6 +305,47 @@ export default function HistoryPage() {
                                         <div className={styles.memberInfo}>
                                             <span className={styles.welcomeText}>Olá,</span>
                                             <h2 className={styles.memberName}>{memberName}</h2>
+                                        </div>
+
+                                        <div style={{ marginBottom: '1.5rem', background: '#f9fafb', padding: '1rem', borderRadius: '0.5rem', border: '1px solid #e5e7eb' }}>
+                                            <h3 style={{ fontSize: '0.9rem', fontWeight: 600, marginBottom: '0.5rem', color: '#374151' }}>Filtrar por data</h3>
+                                            <div className={styles.filters} key="filters-v2">
+                                                <div className={styles.filterGroup}>
+                                                    <label htmlFor="startDate" className={styles.label}>Data Inicial</label>
+                                                    <CustomDatePicker
+                                                        id="startDate"
+                                                        value={startDate}
+                                                        onChange={setStartDate}
+                                                    />
+                                                </div>
+                                                <div className={styles.filterGroup}>
+                                                    <label htmlFor="endDate" className={styles.label}>Data Final</label>
+                                                    <CustomDatePicker
+                                                        id="endDate"
+                                                        value={endDate}
+                                                        onChange={setEndDate}
+                                                    />
+                                                </div>
+                                                <div style={{ display: 'flex', alignItems: 'flex-end', flex: 1 }}>
+                                                    <button
+                                                        onClick={handleFilter}
+                                                        disabled={loading}
+                                                        className={styles.searchButton}
+                                                        style={{ height: '42px', padding: '0 1.5rem' }}
+                                                    >
+                                                        Filtrar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            {(startDate || endDate) && (
+                                                <button
+                                                    type="button"
+                                                    onClick={() => { setStartDate(''); setEndDate(''); fetchHistory(cpf, '', ''); }}
+                                                    className={styles.clearFilters}
+                                                >
+                                                    Limpar filtros
+                                                </button>
+                                            )}
                                         </div>
                                         <div className={styles.historyList}>
                                             {history.map((item) => (
@@ -344,7 +418,7 @@ export default function HistoryPage() {
                         )}
                     </div>
                 </div>
-            </div>
-        </main>
+            </div >
+        </main >
     );
 }

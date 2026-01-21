@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import AdminDatePicker from '@/app/components/AdminDatePicker';
 
 // Simple Icons
 const Icons = {
@@ -242,24 +243,28 @@ export default function AdminDashboard() {
                 </div>
 
                 {/* Recent Donations Table */}
-                <div style={{ background: 'white', borderRadius: '0.75rem', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', overflow: 'hidden' }}>
+                <div style={{ background: 'white', borderRadius: '0.75rem', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
                     <div style={{ padding: '1.5rem', borderBottom: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
                             <h2 style={{ fontSize: '1.125rem', fontWeight: 600 }}>Contribuições Recentes</h2>
                             <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
-                                <input
-                                    type="date"
-                                    value={startDate}
-                                    onChange={(e) => setStartDate(e.target.value)}
-                                    style={{ padding: '0.25rem 0.5rem', border: '1px solid #d1d5db', borderRadius: '0.25rem', fontSize: '0.875rem' }}
-                                />
-                                <span style={{ color: '#6b7280' }}>até</span>
-                                <input
-                                    type="date"
-                                    value={endDate}
-                                    onChange={(e) => setEndDate(e.target.value)}
-                                    style={{ padding: '0.25rem 0.5rem', border: '1px solid #d1d5db', borderRadius: '0.25rem', fontSize: '0.875rem' }}
-                                />
+                                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                                    <div style={{ width: '150px' }}>
+                                        <AdminDatePicker
+                                            value={startDate}
+                                            onChange={setStartDate}
+                                            placeholder="dd/mm/aaaa"
+                                        />
+                                    </div>
+                                    <span style={{ color: '#6b7280' }}>até</span>
+                                    <div style={{ width: '150px' }}>
+                                        <AdminDatePicker
+                                            value={endDate}
+                                            onChange={setEndDate}
+                                            placeholder="dd/mm/aaaa"
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div style={{ display: 'flex', gap: '0.5rem' }}>

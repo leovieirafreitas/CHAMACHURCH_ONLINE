@@ -1,8 +1,15 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Outfit } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' })
+const wondra = localFont({
+  src: '../font/Wondra.otf',
+  variable: '--font-wondra',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'Contribuição Chama Church',
@@ -19,7 +26,7 @@ export default function RootLayout({
       <head>
         <script src="https://sdk.mercadopago.com/js/v2" async></script>
       </head>
-      <body className={inter.variable}>{children}</body>
+      <body className={`${inter.variable} ${outfit.variable} ${wondra.variable}`}>{children}</body>
     </html>
   )
 }

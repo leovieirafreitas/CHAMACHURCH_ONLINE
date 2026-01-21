@@ -5,6 +5,7 @@ import Link from 'next/link';
 import styles from './page.module.css';
 import { jsPDF } from 'jspdf';
 import { supabase } from '@/lib/supabase';
+import { isValidCPF } from '@/lib/validation';
 
 // SVG Icons
 const Icons = {
@@ -94,6 +95,7 @@ export default function Home() {
     // CPF Search State
     const [isCheckingCpf, setIsCheckingCpf] = useState(false);
     const [showFullForm, setShowFullForm] = useState(false);
+    const [cpfError, setCpfError] = useState('');
 
     // Receipt State
     const [successData, setSuccessData] = useState<any>(null);
@@ -128,9 +130,17 @@ export default function Home() {
         };
     }, [step, pixData, successData]);
 
+
     const checkCpf = async (inputCpf: string) => {
         const clean = inputCpf.replace(/\D/g, '');
         if (clean.length !== 11) return;
+
+        // 1. Validate CPF Algorithm
+        if (!isValidCPF(clean)) {
+            setCpfError('CPF Inválido');
+            return;
+        }
+        setCpfError(''); // Clear error if valid
 
         setIsCheckingCpf(true);
         try {
@@ -543,7 +553,24 @@ export default function Home() {
                 <div className={`container ${styles.heroContainer}`}>
                     {/* Hero Text */}
                     <div className={styles.heroContent}>
-                        <h1 className={styles.heroTitle}>Suas doações estão mudando a nossa Comunidade.</h1>
+                        <h1 className={styles.heroTitle}>
+                            {(() => {
+                                const text = "Suas doações estão mudando a nossa Comunidade.";
+                                let globalIndex = 0;
+                                return text.split(' ').map((word, wIndex) => (
+                                    <span key={wIndex} className={styles.word}>
+                                        {word.split('').map((char, cIndex) => {
+                                            const delay = globalIndex++ * 0.03;
+                                            return (
+                                                <span key={cIndex} style={{ animationDelay: `${delay}s` }}>
+                                                    {char}
+                                                </span>
+                                            );
+                                        })}
+                                    </span>
+                                ));
+                            })()}
+                        </h1>
                         <p className={styles.heroSubtitle}>
                             Você pode apoiar o trabalho que a Chama Church realiza em sua comunidade e ao redor do mundo.
                         </p>
@@ -654,13 +681,16 @@ export default function Home() {
                                         <div style={{ position: 'relative' }}>
                                             <input
                                                 type="text"
-                                                className={styles.input}
+                                                className={`${styles.input} ${cpfError ? styles.inputError : ''}`}
                                                 placeholder="000.000.000-00"
                                                 value={cpf}
                                                 maxLength={14}
                                                 onChange={(e) => {
                                                     let value = e.target.value.replace(/\D/g, '');
                                                     if (value.length > 11) value = value.slice(0, 11);
+
+                                                    // Reset error when typing
+                                                    if (cpfError) setCpfError('');
 
                                                     const rawValue = value;
 
@@ -685,6 +715,11 @@ export default function Home() {
                                                 </div>
                                             )}
                                         </div>
+                                        {cpfError && (
+                                            <div className="animate-fade-in" style={{ color: '#ef4444', fontSize: '0.875rem', marginTop: '0.25rem' }}>
+                                                {cpfError}
+                                            </div>
+                                        )}
                                     </div>
 
                                     {(showFullForm) && (
@@ -944,6 +979,23 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-        </main >
+
+            {/* Generosity Section */}
+            <section className={styles.generositySection}>
+                <div className={styles.generosityContainer}>
+                    <h2 className={styles.generosityTitle}>Generosidade</h2>
+                    <h3 className={styles.generositySubtitle}>
+                        É impossível superar a generosidade de Deus, mas você nunca se arrependerá de tentar.
+                    </h3>
+                    <p className={styles.generosityText}>
+                        Deus nos dá coisas boas que não merecemos e jamais poderíamos conquistar, como a graça e o perdão.
+                        Ele nos deu o maior presente de todos, Seu Filho, pelos nossos pecados. Quando falamos de generosidade irracional,
+                        é a isso que nos referimos. Deus te criou com um espírito generoso. Queremos te ajudar a abraçá-lo,
+                        contribuindo além do seu dízimo com uma oferta para uma destas causas.
+                    </p>
+                </div>
+            </section>
+
+        </main>
     );
 }
