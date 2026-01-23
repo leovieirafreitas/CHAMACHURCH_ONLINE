@@ -1,0 +1,17 @@
+{
+  "status": "init",
+  "scope": "codebase",
+  "type": "frontend",
+  "localEndpoint": "http://localhost:3000/",
+  "serverPort": 12188,
+  "executionArgs": {
+    "projectName": "CHAMACHURCH_ONLINE",
+    "projectPath": "c:\\Users\\FELIPE BARROSO\\Documents\\Chamachurch_contribuicao\\CHAMACHURCH_ONLINE",
+    "testIds": [],
+    "additionalInstruction": "",
+    "envs": {
+      "API_KEY": "sk-user-GmUp9mz_zoLrCn2gwXZ_OaHNYst7z1XT6waGYZAUKnjFGlabs2MVha86s0b5e79SkgW666BxoUhRiglKRHb4xU89rkE4enpVnsX2YrhIWmL2fSBqpD8kGIWXOc3FQMF0X9c"
+    }
+  },
+  "proxy": "http://e4e216e3-f4fa-45fa-8bcd-03b03dc8fd2a:H8wIKzOPDmIawoXqeMoViU1zusXVgjfZ@tun.testsprite.com:8080"
+}

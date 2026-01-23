@@ -151,7 +151,7 @@ export default function Home() {
             });
             const data = await res.json();
 
-            if (data.found && data.donor) {
+            if (data.exists && data.donor) {
                 setName(data.donor.name || '');
                 setEmail(data.donor.email || '');
                 setWhatsapp(data.donor.phone || '');

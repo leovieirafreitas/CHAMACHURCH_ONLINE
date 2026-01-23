@@ -22,9 +22,9 @@ export async function POST(request: Request) {
             .single();
 
         if (error) {
-            // PGRST116 means no rows found, which is fine, just return found: false
+            // PGRST116 means no rows found, which is fine, just return exists: false
             if (error.code === 'PGRST116') {
-                return NextResponse.json({ found: false });
+                return NextResponse.json({ exists: false });
             }
             throw error;
         }
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
             const email = data.payer_email === 'comprador@sandbox.pagseguro.com.br' ? '' : data.payer_email;
 
             return NextResponse.json({
-                found: true,
+                exists: true,
                 donor: {
                     name: data.payer_name,
                     email: email,
@@ -43,7 +43,7 @@ export async function POST(request: Request) {
             });
         }
 
-        return NextResponse.json({ found: false });
+        return NextResponse.json({ exists: false });
 
     } catch (error: any) {
         console.error('Check Donor Error:', error);

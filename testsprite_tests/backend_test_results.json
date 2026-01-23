@@ -1,0 +1,92 @@
+{
+  "total": 17,
+  "passed": 14,
+  "failed": 3,
+  "tests": [
+    {
+      "name": "API-TC001: Create PIX donation with valid data",
+      "passed": false,
+      "message": "Status: 400, Error: CPF inválido. Por favor, verifique o número digitado."
+    },
+    {
+      "name": "API-TC004: Credit card payment attempt",
+      "passed": false,
+      "message": ""
+    },
+    {
+      "name": "API-TC002: Reject invalid CPF",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "name": "API-TC003: Reject missing required fields",
+      "passed": "Campo obrigatório ausente: churchLocation",
+      "message": ""
+    },
+    {
+      "name": "API-TC008: Reject negative amount",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "name": "API-TC008: Reject zero amount",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "name": "API-TC005: Check donor endpoint responds",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "name": "API-TC005: Response has exists field",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "name": "API-TC006: Non-existing donor returns exists: false",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "name": "API-TC007: Check status endpoint responds",
+      "passed": false,
+      "message": ""
+    },
+    {
+      "name": "API-TC009: SQL injection attempt handled safely",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "name": "API-TC012: CORS preflight request handled",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "name": "API-TC010: /api/donate responds in < 2000ms",
+      "passed": true,
+      "message": "Response time: 8ms ✓"
+    },
+    {
+      "name": "API-TC010: /api/check-donor responds in < 2000ms",
+      "passed": true,
+      "message": "Response time: 135ms ✓"
+    },
+    {
+      "name": "API-TC010: /api/check-status responds in < 2000ms",
+      "passed": true,
+      "message": "Response time: 7ms ✓"
+    },
+    {
+      "name": "API-TC011: Invalid JSON handled gracefully",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "name": "API-TC011: Empty request body handled",
+      "passed": true,
+      "message": ""
+    }
+  ]
+}

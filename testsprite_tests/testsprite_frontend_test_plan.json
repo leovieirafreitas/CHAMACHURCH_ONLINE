@@ -1,0 +1,438 @@
+[
+  {
+    "id": "TC001",
+    "title": "Successful Multi-type Donation Workflow with PIX Payment",
+    "description": "Verify that a user can complete a donation selecting Tithes, entering a valid amount, filling in personal info, selecting church location, choosing PIX payment, scanning QR code, paying successfully, and receiving a downloadable PDF receipt.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to donation form and select donation type 'Tithes'"
+      },
+      {
+        "type": "action",
+        "description": "Enter valid custom donation amount with correct currency formatting"
+      },
+      {
+        "type": "action",
+        "description": "Fill in personal information with valid name, CPF (correct format and checksum), email, and phone"
+      },
+      {
+        "type": "action",
+        "description": "Select one of the available church locations"
+      },
+      {
+        "type": "action",
+        "description": "Select PIX as the payment method"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify QR code and PIX copy-paste code are displayed correctly"
+      },
+      {
+        "type": "action",
+        "description": "Simulate completing payment by scanning QR code or using PIX code"
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm real-time payment status updates to 'confirmed' within expected timeout"
+      },
+      {
+        "type": "assertion",
+        "description": "Download the PDF receipt and verify it includes all donor and donation details, church branding, and verification QR code"
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "Donation Form Validates Personal Information Inputs Properly",
+    "description": "Check validity and error handling for incorrect inputs in personal information fields including CPF, email, and phone number.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to personal information form in donation workflow"
+      },
+      {
+        "type": "action",
+        "description": "Enter invalid CPF less than 11 digits and observe validation error"
+      },
+      {
+        "type": "assertion",
+        "description": "Display appropriate CPF format error message in Portuguese"
+      },
+      {
+        "type": "action",
+        "description": "Enter CPF with invalid checksum digits and observe validation error"
+      },
+      {
+        "type": "assertion",
+        "description": "Display CPF checksum validation error"
+      },
+      {
+        "type": "action",
+        "description": "Enter invalid email format and observe validation error message"
+      },
+      {
+        "type": "assertion",
+        "description": "Email format validation error message is shown"
+      },
+      {
+        "type": "action",
+        "description": "Enter invalid phone number format and observe validation"
+      },
+      {
+        "type": "assertion",
+        "description": "Show phone number validation error in Portuguese"
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Credit Card Payment Process with Installments Success",
+    "description": "Verify that credit card payment works with tokenization, installment selection, and proper handling by Mercado Pago API, then reflecting payment success to the user with receipt generation.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Select a donation type and enter valid donation amount"
+      },
+      {
+        "type": "action",
+        "description": "Fill valid personal information and select church location"
+      },
+      {
+        "type": "action",
+        "description": "Choose Credit Card as payment method"
+      },
+      {
+        "type": "action",
+        "description": "Enter valid credit card details supporting major card brands"
+      },
+      {
+        "type": "action",
+        "description": "Select valid installment option if applicable"
+      },
+      {
+        "type": "assertion",
+        "description": "Card data is tokenized securely before payment processing"
+      },
+      {
+        "type": "assertion",
+        "description": "Payment is successfully processed and user receives confirmation"
+      },
+      {
+        "type": "assertion",
+        "description": "User can download the PDF receipt with all details, branding, and verification QR code"
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Donation Amount Validation: Minimum and Currency Format",
+    "description": "Check that the donation amount input accepts only valid currency formatted numbers above minimum allowed value and rejects invalid or empty inputs with real-time feedback.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to donation amount input field"
+      },
+      {
+        "type": "action",
+        "description": "Enter an amount below the minimum permissible threshold"
+      },
+      {
+        "type": "assertion",
+        "description": "Show error indicating minimum donation amount requirement"
+      },
+      {
+        "type": "action",
+        "description": "Enter non-numeric or malformed currency input"
+      },
+      {
+        "type": "assertion",
+        "description": "Show error for invalid currency format"
+      },
+      {
+        "type": "action",
+        "description": "Leave amount field empty"
+      },
+      {
+        "type": "assertion",
+        "description": "Show required field validation error"
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Donor Information Auto-fill Based on Existing CPF",
+    "description": "Verify that when a donor enters a CPF registered in the system, personal information fields are auto-filled correctly to improve user experience.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to donation form personal info section"
+      },
+      {
+        "type": "action",
+        "description": "Enter an existing registered CPF"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that name, email, and phone fields auto-fill with correct donor information"
+      },
+      {
+        "type": "action",
+        "description": "Modify auto-filled info and confirm the user can proceed with changes"
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Donation History Search by CPF and Location with Real-time Status Updates",
+    "description": "Test donation history search functionality returns accurate filtered results by CPF and church location, updates payment statuses in real-time, and allows regeneration of PDF receipts.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to donation history search page"
+      },
+      {
+        "type": "action",
+        "description": "Enter a valid CPF and select a church location"
+      },
+      {
+        "type": "action",
+        "description": "Submit search query"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that the list of donations is accurately filtered by CPF and location"
+      },
+      {
+        "type": "assertion",
+        "description": "Statuses of pending payments update automatically over time"
+      },
+      {
+        "type": "action",
+        "description": "Attempt to regenerate and download PDF receipt for one of the donations"
+      },
+      {
+        "type": "assertion",
+        "description": "Receipt PDF is correctly generated and downloadable with proper contents and branding"
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Receipt Sharing via WhatsApp with Correct PDF Attachment and Preformatted Message",
+    "description": "Confirm that the receipt sharing functionality generates a preformatted WhatsApp message and attaches the correct PDF receipt, working on both desktop and mobile environments.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to donation history and select a completed donation"
+      },
+      {
+        "type": "action",
+        "description": "Use the share via WhatsApp option"
+      },
+      {
+        "type": "assertion",
+        "description": "Check that PDF receipt is attached properly"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the preformatted message content is present and correctly localized in Portuguese"
+      },
+      {
+        "type": "assertion",
+        "description": "Confirm the sharing trigger opens WhatsApp interface for sending message on desktop and mobile"
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Admin Dashboard Access with Secure Authentication and Session Handling",
+    "description": "Verify that only valid admin users can log in securely, with sessions properly managed and unauthorized access prevented.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to admin login page"
+      },
+      {
+        "type": "action",
+        "description": "Attempt login with invalid credentials"
+      },
+      {
+        "type": "assertion",
+        "description": "Access is denied with meaningful Portuguese error message"
+      },
+      {
+        "type": "action",
+        "description": "Log in with valid admin credentials"
+      },
+      {
+        "type": "assertion",
+        "description": "Access admin dashboard successfully with valid session"
+      },
+      {
+        "type": "action",
+        "description": "Attempt to access dashboard URL without authentication in a fresh session"
+      },
+      {
+        "type": "assertion",
+        "description": "Redirect to login page or block access"
+      },
+      {
+        "type": "action",
+        "description": "Log out and verify session ends effectively"
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Admin Dashboard Donation Metrics, Filtering, Pagination, and Cleanup",
+    "description": "Test that the admin dashboard displays accurate aggregated donation metrics and allows filtering donation records by parameters, supports pagination, and enables cleanup actions.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Log in as admin and open dashboard"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify displayed stats: total donations, total amount, unique donors, pending payments match backend data"
+      },
+      {
+        "type": "action",
+        "description": "Apply filters for donation type and payment status"
+      },
+      {
+        "type": "assertion",
+        "description": "Donation list updates correctly according to filters"
+      },
+      {
+        "type": "action",
+        "description": "Navigate through donation list pages using pagination controls"
+      },
+      {
+        "type": "assertion",
+        "description": "Pagination works smoothly without loading delays"
+      },
+      {
+        "type": "action",
+        "description": "Execute cleanup action to clear or handle donation statuses as per system features"
+      },
+      {
+        "type": "assertion",
+        "description": "Cleanup completes with proper confirmation and database update"
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "API Error Handling with Meaningful Portuguese Messages on Donation Submission",
+    "description": "Ensure that API endpoints for donations handle invalid inputs, payment failures, and unexpected errors gracefully by returning meaningful error messages in Portuguese.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Submit donation API request with invalid personal information (e.g., malformed CPF)"
+      },
+      {
+        "type": "assertion",
+        "description": "API responds with HTTP 400 and detailed validation error message in Portuguese"
+      },
+      {
+        "type": "action",
+        "description": "Simulate payment failure in Mercado Pago during API call"
+      },
+      {
+        "type": "assertion",
+        "description": "API returns payment failure status with user-friendly error message"
+      },
+      {
+        "type": "action",
+        "description": "Send malformed request payload or unsupported payment method"
+      },
+      {
+        "type": "assertion",
+        "description": "API returns appropriate error code with meaningful explanation"
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Responsive and Accessible UI on Mobile and Desktop",
+    "description": "Test that the user interface is fully responsive, accessible, and performs within required page load (<3s) and API response (<2s) targets on both desktop and mobile devices.",
+    "category": "ui",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open donation form on desktop screen and mobile screen (emulated or real)"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify layout adjusts properly and UI controls remain usable"
+      },
+      {
+        "type": "action",
+        "description": "Check that form inputs have proper labels and meet accessibility standards (e.g., screen reader friendly)"
+      },
+      {
+        "type": "assertion",
+        "description": "Accessibility checks pass"
+      },
+      {
+        "type": "action",
+        "description": "Measure page load time and note API response times during interaction"
+      },
+      {
+        "type": "assertion",
+        "description": "All page loads under 3 seconds, all API responses under 2 seconds"
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "Donation History Search Returns No Results for Unknown CPF",
+    "description": "Verify that entering a CPF not present in the database returns an empty but valid response with appropriate user feedback.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to donation history search"
+      },
+      {
+        "type": "action",
+        "description": "Enter a valid, but unregistered CPF and any church location"
+      },
+      {
+        "type": "action",
+        "description": "Submit search"
+      },
+      {
+        "type": "assertion",
+        "description": "The system displays a message indicating no donations found, in Portuguese"
+      },
+      {
+        "type": "assertion",
+        "description": "No errors occur and UI remains responsive"
+      }
+    ]
+  }
+]

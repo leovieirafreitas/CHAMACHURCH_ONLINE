@@ -1,0 +1,338 @@
+[
+    {
+        "id": "API-TC001",
+        "title": "POST /api/donate - Successful PIX Donation Creation",
+        "description": "Verify that the donate API endpoint successfully creates a PIX donation with valid data and returns proper response",
+        "category": "api",
+        "priority": "High",
+        "endpoint": "/api/donate",
+        "method": "POST",
+        "requestBody": {
+            "amount": 100.00,
+            "description": "Dízimos",
+            "churchLocation": "central",
+            "paymentMethod": "pix",
+            "customer": {
+                "name": "João Silva",
+                "email": "joao@example.com",
+                "cpf": "12345678900",
+                "phone": "11999999999"
+            }
+        },
+        "expectedResponse": {
+            "status": 200,
+            "body": {
+                "id": "number",
+                "status": "string",
+                "qr_codes": "array"
+            }
+        },
+        "assertions": [
+            "Response status is 200",
+            "Response contains payment ID",
+            "Response contains QR code data",
+            "Payment status is 'pending' or 'approved'",
+            "Donation is saved in database"
+        ]
+    },
+    {
+        "id": "API-TC002",
+        "title": "POST /api/donate - Invalid CPF Validation",
+        "description": "Verify that the API rejects donations with invalid CPF format",
+        "category": "api",
+        "priority": "High",
+        "endpoint": "/api/donate",
+        "method": "POST",
+        "requestBody": {
+            "amount": 100.00,
+            "description": "Dízimos",
+            "churchLocation": "central",
+            "paymentMethod": "pix",
+            "customer": {
+                "name": "João Silva",
+                "email": "joao@example.com",
+                "cpf": "11111111111",
+                "phone": "11999999999"
+            }
+        },
+        "expectedResponse": {
+            "status": 400,
+            "body": {
+                "error": "string"
+            }
+        },
+        "assertions": [
+            "Response status is 400",
+            "Error message is in Portuguese",
+            "Error message mentions CPF validation",
+            "No donation is created in database"
+        ]
+    },
+    {
+        "id": "API-TC003",
+        "title": "POST /api/donate - Missing Required Fields",
+        "description": "Verify that the API returns appropriate error when required fields are missing",
+        "category": "api",
+        "priority": "High",
+        "endpoint": "/api/donate",
+        "method": "POST",
+        "requestBody": {
+            "amount": 100.00,
+            "customer": {
+                "name": "João Silva"
+            }
+        },
+        "expectedResponse": {
+            "status": 400,
+            "body": {
+                "error": "Missing required fields"
+            }
+        },
+        "assertions": [
+            "Response status is 400",
+            "Error message indicates missing fields",
+            "No donation is created"
+        ]
+    },
+    {
+        "id": "API-TC004",
+        "title": "POST /api/donate - Credit Card Payment",
+        "description": "Verify credit card payment processing with valid card token",
+        "category": "api",
+        "priority": "High",
+        "endpoint": "/api/donate",
+        "method": "POST",
+        "requestBody": {
+            "amount": 150.00,
+            "description": "Ofertas",
+            "churchLocation": "online",
+            "paymentMethod": "credit_card",
+            "customer": {
+                "name": "Maria Santos",
+                "email": "maria@example.com",
+                "cpf": "98765432100",
+                "phone": "21987654321"
+            },
+            "token": "test_card_token",
+            "paymentMethodId": "visa",
+            "installments": 1,
+            "issuerId": "123"
+        },
+        "expectedResponse": {
+            "status": 200,
+            "body": {
+                "id": "number",
+                "status": "string"
+            }
+        },
+        "assertions": [
+            "Response status is 200 or appropriate error",
+            "Payment ID is returned",
+            "Status is 'approved', 'rejected', or 'pending'",
+            "Donation is saved with correct payment method"
+        ]
+    },
+    {
+        "id": "API-TC005",
+        "title": "POST /api/check-donor - Existing Donor Found",
+        "description": "Verify that the API returns donor information when CPF exists in database",
+        "category": "api",
+        "priority": "Medium",
+        "endpoint": "/api/check-donor",
+        "method": "POST",
+        "requestBody": {
+            "cpf": "12345678900",
+            "churchLocation": "central"
+        },
+        "expectedResponse": {
+            "status": 200,
+            "body": {
+                "exists": true,
+                "donor": {
+                    "name": "string",
+                    "email": "string",
+                    "phone": "string"
+                }
+            }
+        },
+        "assertions": [
+            "Response status is 200",
+            "exists field is true",
+            "Donor object contains name, email, phone",
+            "Data matches database record"
+        ]
+    },
+    {
+        "id": "API-TC006",
+        "title": "POST /api/check-donor - Donor Not Found",
+        "description": "Verify that the API returns appropriate response when CPF does not exist",
+        "category": "api",
+        "priority": "Medium",
+        "endpoint": "/api/check-donor",
+        "method": "POST",
+        "requestBody": {
+            "cpf": "99999999999",
+            "churchLocation": "central"
+        },
+        "expectedResponse": {
+            "status": 200,
+            "body": {
+                "exists": false
+            }
+        },
+        "assertions": [
+            "Response status is 200",
+            "exists field is false",
+            "No error is thrown",
+            "Response is valid JSON"
+        ]
+    },
+    {
+        "id": "API-TC007",
+        "title": "POST /api/check-status - Payment Status Check",
+        "description": "Verify that the API can check payment status with Mercado Pago",
+        "category": "api",
+        "priority": "High",
+        "endpoint": "/api/check-status",
+        "method": "POST",
+        "requestBody": {
+            "paymentId": "123456789"
+        },
+        "expectedResponse": {
+            "status": 200,
+            "body": {
+                "status": "string",
+                "mpStatus": "string"
+            }
+        },
+        "assertions": [
+            "Response status is 200 or 404",
+            "Status field is present",
+            "Status is one of: pending, paid, declined, canceled",
+            "Database is updated with new status"
+        ]
+    },
+    {
+        "id": "API-TC008",
+        "title": "POST /api/donate - Invalid Amount Validation",
+        "description": "Verify that the API rejects donations with invalid amounts (negative, zero, non-numeric)",
+        "category": "api",
+        "priority": "Medium",
+        "endpoint": "/api/donate",
+        "method": "POST",
+        "requestBody": {
+            "amount": -50.00,
+            "description": "Dízimos",
+            "churchLocation": "central",
+            "paymentMethod": "pix",
+            "customer": {
+                "name": "João Silva",
+                "email": "joao@example.com",
+                "cpf": "12345678900",
+                "phone": "11999999999"
+            }
+        },
+        "expectedResponse": {
+            "status": 400,
+            "body": {
+                "error": "string"
+            }
+        },
+        "assertions": [
+            "Response status is 400",
+            "Error message indicates invalid amount",
+            "No donation is created"
+        ]
+    },
+    {
+        "id": "API-TC009",
+        "title": "POST /api/donate - SQL Injection Prevention",
+        "description": "Verify that the API properly sanitizes inputs and prevents SQL injection",
+        "category": "security",
+        "priority": "High",
+        "endpoint": "/api/donate",
+        "method": "POST",
+        "requestBody": {
+            "amount": 100.00,
+            "description": "Dízimos'; DROP TABLE donations; --",
+            "churchLocation": "central",
+            "paymentMethod": "pix",
+            "customer": {
+                "name": "João'; DROP TABLE donations; --",
+                "email": "joao@example.com",
+                "cpf": "12345678900",
+                "phone": "11999999999"
+            }
+        },
+        "expectedResponse": {
+            "status": 200,
+            "body": {
+                "id": "number"
+            }
+        },
+        "assertions": [
+            "Response is successful or properly rejected",
+            "No SQL injection occurs",
+            "Database tables remain intact",
+            "Malicious input is escaped/sanitized"
+        ]
+    },
+    {
+        "id": "API-TC010",
+        "title": "API Response Time Performance",
+        "description": "Verify that all API endpoints respond within acceptable time limits (< 2 seconds)",
+        "category": "performance",
+        "priority": "Medium",
+        "endpoints": [
+            "/api/donate",
+            "/api/check-donor",
+            "/api/check-status"
+        ],
+        "assertions": [
+            "All endpoints respond in < 2000ms",
+            "No timeout errors occur",
+            "Database queries are optimized",
+            "External API calls (Mercado Pago) have proper timeout handling"
+        ]
+    },
+    {
+        "id": "API-TC011",
+        "title": "POST /api/donate - Mercado Pago Integration Error Handling",
+        "description": "Verify that the API handles Mercado Pago errors gracefully",
+        "category": "error_handling",
+        "priority": "High",
+        "endpoint": "/api/donate",
+        "method": "POST",
+        "scenario": "Simulate Mercado Pago API failure",
+        "expectedResponse": {
+            "status": 500,
+            "body": {
+                "error": "string"
+            }
+        },
+        "assertions": [
+            "Response status is 500",
+            "Error message is user-friendly in Portuguese",
+            "Error is logged for debugging",
+            "Partial donation data is not saved"
+        ]
+    },
+    {
+        "id": "API-TC012",
+        "title": "CORS Headers Validation",
+        "description": "Verify that API endpoints have proper CORS headers configured",
+        "category": "security",
+        "priority": "Medium",
+        "endpoints": [
+            "/api/donate",
+            "/api/check-donor",
+            "/api/check-status"
+        ],
+        "assertions": [
+            "Access-Control-Allow-Origin header is present",
+            "Access-Control-Allow-Methods includes POST",
+            "Access-Control-Allow-Headers includes Content-Type",
+            "Preflight OPTIONS requests are handled"
+        ]
+    }
+]

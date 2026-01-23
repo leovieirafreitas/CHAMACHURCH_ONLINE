@@ -1,0 +1,118 @@
+{
+    "tech_stack": [
+        "TypeScript",
+        "Next.js 16.1.4",
+        "React 19.2.3",
+        "Supabase",
+        "Mercado Pago API",
+        "jsPDF"
+    ],
+    "features": [
+        {
+            "name": "Donation Form",
+            "description": "Main donation interface allowing users to select donation type (tithe, offerings, missions), enter amount, personal information (name, CPF, email, phone), select church location, and choose payment method (PIX or Credit Card). Includes form validation and multi-step wizard.",
+            "files": [
+                "app/page.tsx",
+                "app/page.module.css"
+            ]
+        },
+        {
+            "name": "Payment Processing - PIX",
+            "description": "Integration with Mercado Pago to process PIX payments. Generates QR code and PIX copy-paste code for users to complete payment. Handles payment status checking and updates.",
+            "files": [
+                "app/api/donate/route.ts",
+                "lib/mercadopago.ts",
+                "app/page.tsx"
+            ]
+        },
+        {
+            "name": "Payment Processing - Credit Card",
+            "description": "Integration with Mercado Pago to process credit card payments. Handles card tokenization, installment options, and payment validation.",
+            "files": [
+                "app/api/donate/route.ts",
+                "lib/mercadopago.ts",
+                "app/page.tsx"
+            ]
+        },
+        {
+            "name": "Donation Receipt Generation",
+            "description": "Generates PDF receipts for completed donations using jsPDF. Includes donor information, donation details, church branding, and QR code for verification.",
+            "files": [
+                "app/page.tsx",
+                "app/historico/page.tsx"
+            ]
+        },
+        {
+            "name": "Donation History Search",
+            "description": "Allows users to search their donation history by CPF and church location. Displays list of donations with status, amount, and date. Includes automatic status checking for pending payments.",
+            "files": [
+                "app/historico/page.tsx",
+                "app/historico/page.module.css"
+            ]
+        },
+        {
+            "name": "Receipt Sharing",
+            "description": "Enables users to share donation receipts via WhatsApp with pre-formatted message and PDF attachment.",
+            "files": [
+                "app/historico/page.tsx"
+            ]
+        },
+        {
+            "name": "Admin Dashboard",
+            "description": "Administrative interface for viewing and managing donations. Displays statistics (total donations, total amount, unique donors, pending payments), donation list with filtering and pagination, and cleanup tools for managing donation statuses.",
+            "files": [
+                "app/admin/dashboard/page.tsx"
+            ]
+        },
+        {
+            "name": "Admin Authentication",
+            "description": "Simple authentication system for admin access using Supabase. Includes login page and session management.",
+            "files": [
+                "app/admin/page.tsx",
+                "app/admin/dashboard/page.tsx"
+            ]
+        },
+        {
+            "name": "Admin Setup",
+            "description": "Initial setup page for creating admin credentials in the system.",
+            "files": [
+                "app/admin/setup/page.tsx"
+            ]
+        },
+        {
+            "name": "Donor Verification",
+            "description": "API endpoint to check if a CPF is already registered in the system and retrieve donor information for auto-fill.",
+            "files": [
+                "app/api/check-donor/route.ts"
+            ]
+        },
+        {
+            "name": "Payment Status Checker",
+            "description": "API endpoint to check the current status of a payment with Mercado Pago and update the database accordingly.",
+            "files": [
+                "app/api/check-status/route.ts"
+            ]
+        },
+        {
+            "name": "Database Integration",
+            "description": "Supabase client configuration for database operations including storing donations, admin credentials, and querying donation history.",
+            "files": [
+                "lib/supabase.ts"
+            ]
+        },
+        {
+            "name": "Mercado Pago Integration",
+            "description": "Core payment processing functions for creating payments (PIX and credit card) and retrieving payment status from Mercado Pago API.",
+            "files": [
+                "lib/mercadopago.ts"
+            ]
+        },
+        {
+            "name": "Company Page Router",
+            "description": "Dynamic route handler for company-specific donation pages.",
+            "files": [
+                "app/c/[id]/route.ts"
+            ]
+        }
+    ]
+}
